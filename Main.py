@@ -1,5 +1,5 @@
 import pygame
-import perguntas, Botao, Inimigo
+import perguntas, Botao, Mapa, Inimigo, Level, Batalha
 
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
@@ -9,7 +9,7 @@ clock = pygame.time.Clock()
 menu_state = 'mainMenu'
 perguntas = perguntas.perguntas
 battleActive = False
-levelList, enemyList = [False, False], [False, False]
+levelList, enemyList = [], []
 font = pygame.font.SysFont('comicsansms', 40)
 TEXT_COL = (255, 255, 255)
 
@@ -22,11 +22,61 @@ button_pressed_quit = pygame.image.load('sprite/quit_button.png').convert_alpha(
 button_unp_left = pygame.image.load('sprite/left_btn_unp.png').convert_alpha()
 button_pressed_left = pygame.image.load('sprite/left_btn.png').convert_alpha()
 
+# Level button
 button_unp_level_1 = pygame.image.load('sprite/level_1_unp.png').convert_alpha()
 button_pressed_level_1 = pygame.image.load('sprite/level_1_btn.png').convert_alpha()
 button_unp_level_2 = pygame.image.load('sprite/level_2_unp.png').convert_alpha()
 button_pressed_level_2 = pygame.image.load('sprite/level_2_btn.png').convert_alpha()
+button_unp_level_3 = pygame.image.load('sprite/level_3_unp.png').convert_alpha()
+button_pressed_level_3 = pygame.image.load('sprite/level_3_btn.png').convert_alpha()
+button_unp_level_4 = pygame.image.load('sprite/level_4_unp.png').convert_alpha()
+button_pressed_level_4 = pygame.image.load('sprite/level_4_btn.png').convert_alpha()
+button_unp_boss = pygame.image.load('sprite/boss_unp_btn.png').convert_alpha()
+button_pressed_boss = pygame.image.load('sprite/boss_btn.png').convert_alpha()
 
+button_unp_level_1_red = pygame.image.load('sprite/level_1_unp_btn_red.png').convert_alpha()
+button_pressed_level_1_red = pygame.image.load('sprite/level_1_btn_red.png').convert_alpha()
+button_unp_level_2_red = pygame.image.load('sprite/level_2_unp_btn_red.png').convert_alpha()
+button_pressed_level_2_red = pygame.image.load('sprite/level_2_btn_red.png').convert_alpha()
+button_unp_level_3_red = pygame.image.load('sprite/level_3_unp_btn_red.png').convert_alpha()
+button_pressed_level_3_red = pygame.image.load('sprite/level_3_btn_red.png').convert_alpha()
+button_unp_level_4_red = pygame.image.load('sprite/level_4_unp_btn_red.png').convert_alpha()
+button_pressed_level_4_red = pygame.image.load('sprite/level_4_btn_red.png').convert_alpha()
+
+button_unp_level_1_grey = pygame.image.load('sprite/level_1_unp_grey.png').convert_alpha()
+button_pressed_level_1_grey = pygame.image.load('sprite/level_1_btn_grey.png').convert_alpha()
+button_unp_level_2_grey = pygame.image.load('sprite/level_2_unp_grey.png').convert_alpha()
+button_pressed_level_2_grey = pygame.image.load('sprite/level_2_btn_grey.png').convert_alpha()
+button_unp_level_3_grey = pygame.image.load('sprite/level_3_unp_grey.png').convert_alpha()
+button_pressed_level_3_grey = pygame.image.load('sprite/level_3_btn_grey.png').convert_alpha()
+button_unp_level_4_grey = pygame.image.load('sprite/level_4_unp_grey.png').convert_alpha()
+button_pressed_level_4_grey = pygame.image.load('sprite/level_4_btn_grey.png').convert_alpha()
+button_unp_boss_grey = pygame.image.load('sprite/boss_unp_grey.png').convert_alpha()
+button_pressed_boss_grey = pygame.image.load('sprite/boss_btn_grey.png').convert_alpha()
+
+# Enemy level button
+enemy_unp_1 = pygame.image.load('sprite/enemy_1_unp_btn.png').convert_alpha()
+enemy_pressed_1 = pygame.image.load('sprite/enemy_1_btn.png').convert_alpha()
+enemy_unp_2 = pygame.image.load('sprite/enemy_2_unp_btn.png').convert_alpha()
+enemy_pressed_2 = pygame.image.load('sprite/enemy_2_btn.png').convert_alpha()
+enemy_unp_3 = pygame.image.load('sprite/enemy_3_unp_btn.png').convert_alpha()
+enemy_pressed_3 = pygame.image.load('sprite/enemy_3_btn.png').convert_alpha()
+
+enemy_unp_1_red = pygame.image.load('sprite/enemy_1_unp_btn_red.png').convert_alpha()
+enemy_pressed_1_red = pygame.image.load('sprite/enemy_1_btn_red.png').convert_alpha()
+enemy_unp_2_red = pygame.image.load('sprite/enemy_2_unp_btn_red.png').convert_alpha()
+enemy_pressed_2_red = pygame.image.load('sprite/enemy_2_btn_red.png').convert_alpha()
+enemy_unp_3_red = pygame.image.load('sprite/enemy_3_unp_btn_red.png').convert_alpha()
+enemy_pressed_3_red = pygame.image.load('sprite/enemy_3_btn_red.png').convert_alpha()
+
+enemy_unp_1_grey = pygame.image.load('sprite/enemy_1_unp_grey.png').convert_alpha()
+enemy_pressed_1_grey = pygame.image.load('sprite/enemy_1_btn_grey.png').convert_alpha()
+enemy_unp_2_grey = pygame.image.load('sprite/enemy_2_unp_grey.png').convert_alpha()
+enemy_pressed_2_grey = pygame.image.load('sprite/enemy_2_btn_grey.png').convert_alpha()
+enemy_unp_3_grey = pygame.image.load('sprite/enemy_3_unp_grey.png').convert_alpha()
+enemy_pressed_3_grey = pygame.image.load('sprite/enemy_3_btn_grey.png').convert_alpha()
+
+# Option button
 button_unp_a = pygame.image.load('sprite/a_btn_unp.png').convert_alpha()
 button_pressed_a = pygame.image.load('sprite/a_btn.png').convert_alpha()
 button_unp_b = pygame.image.load('sprite/b_btn_unp.png').convert_alpha()
@@ -36,8 +86,8 @@ button_pressed_c = pygame.image.load('sprite/c_btn.png').convert_alpha()
 button_unp_d = pygame.image.load('sprite/d_btn_unp.png').convert_alpha()
 button_pressed_d = pygame.image.load('sprite/d_btn.png').convert_alpha()
 
+# Enemy button
 capanga_1 = pygame.image.load('sprite/capanga_1.png').convert_alpha()
-
 
 def draw_text(text, font, text_col, x, y):
   img = font.render(text, True, text_col)
@@ -61,15 +111,78 @@ button_group_left.add(button_left)
 button_group_level_1 = pygame.sprite.GroupSingle()
 button_level_1 = Botao.Button(button_unp_level_1, button_pressed_level_1, 400, 450, 3)
 button_group_level_1.add(button_level_1)
-
 button_group_level_2 = pygame.sprite.GroupSingle()
 button_level_2 = Botao.Button(button_unp_level_2, button_pressed_level_2, 400, 375, 3)
 button_group_level_2.add(button_level_2)
+button_group_level_3 = pygame.sprite.GroupSingle()
+button_level_3 = Botao.Button(button_unp_level_3, button_pressed_level_3, 400, 300, 3)
+button_group_level_3.add(button_level_3)
+button_group_level_4 = pygame.sprite.GroupSingle()
+button_level_4 = Botao.Button(button_unp_level_4, button_pressed_level_4, 400, 225, 3)
+button_group_level_4.add(button_level_4)
+button_group_boss = pygame.sprite.GroupSingle()
+button_boss = Botao.Button(button_unp_boss, button_pressed_boss, 400, 225, 3)
+button_group_boss.add(button_boss)
+
+button_group_level_1_red = pygame.sprite.GroupSingle()
+button_level_1_red = Botao.Button(button_unp_level_1_red, button_pressed_level_1_red, 400, 450, 3)
+button_group_level_1_red.add(button_level_1_red)
+button_group_level_2_red = pygame.sprite.GroupSingle()
+button_level_2_red = Botao.Button(button_unp_level_2_red, button_pressed_level_2_red, 400, 375, 3)
+button_group_level_2_red.add(button_level_2_red)
+button_group_level_3_red = pygame.sprite.GroupSingle()
+button_level_3_red = Botao.Button(button_unp_level_3_red, button_pressed_level_3_red, 400, 300, 3)
+button_group_level_3_red.add(button_level_3_red)
+button_group_level_4_red = pygame.sprite.GroupSingle()
+button_level_4_red = Botao.Button(button_unp_level_4_red, button_pressed_level_4_red, 400, 225, 3)
+button_group_level_4_red.add(button_level_4_red)
+
+button_group_level_1_grey = pygame.sprite.GroupSingle()
+button_level_1_grey = Botao.Button(button_unp_level_1_grey, button_pressed_level_1_grey, 400, 450, 3)
+button_group_level_1_grey.add(button_level_1_grey)
+button_group_level_2_grey = pygame.sprite.GroupSingle()
+button_level_2_grey = Botao.Button(button_unp_level_2_grey, button_pressed_level_2_grey, 400, 375, 3)
+button_group_level_2_grey.add(button_level_2_grey)
+button_group_level_3_grey = pygame.sprite.GroupSingle()
+button_level_3_grey = Botao.Button(button_unp_level_3_grey, button_pressed_level_3_grey, 400, 300, 3)
+button_group_level_3_grey.add(button_level_3_grey)
+button_group_level_4_grey = pygame.sprite.GroupSingle()
+button_level_4_grey = Botao.Button(button_unp_level_4_grey, button_pressed_level_4_grey, 400, 225, 3)
+button_group_level_4_grey.add(button_level_4_grey)
+button_group_boss_grey = pygame.sprite.GroupSingle()
+button_boss_grey = Botao.Button(button_unp_boss_grey, button_pressed_boss_grey, 400, 225, 3)
+button_group_boss_grey.add(button_boss_grey)
 
 # Enemies buttons
 button_group_inimigo_1 = pygame.sprite.GroupSingle()
-button_inimigo_1 = Botao.Button(button_unp_level_1, button_pressed_level_1, 80, 100, 3)
+button_inimigo_1 = Botao.Button(enemy_unp_1, enemy_pressed_1, 80, 100, 3)
 button_group_inimigo_1.add(button_inimigo_1)
+button_group_inimigo_2 = pygame.sprite.GroupSingle()
+button_inimigo_2 = Botao.Button(enemy_unp_2, enemy_pressed_2, 80, 200, 3)
+button_group_inimigo_2.add(button_inimigo_2)
+button_group_inimigo_3 = pygame.sprite.GroupSingle()
+button_inimigo_3 = Botao.Button(enemy_unp_3, enemy_pressed_3, 80, 300, 3)
+button_group_inimigo_3.add(button_inimigo_3)
+
+button_group_inimigo_1_red = pygame.sprite.GroupSingle()
+button_inimigo_1_red = Botao.Button(enemy_unp_1_red, enemy_pressed_1_red, 80, 100, 3)
+button_group_inimigo_1_red.add(button_inimigo_1_red)
+button_group_inimigo_2_red = pygame.sprite.GroupSingle()
+button_inimigo_2_red = Botao.Button(enemy_unp_2_red, enemy_pressed_2_red, 80, 200, 3)
+button_group_inimigo_2_red.add(button_inimigo_2_red)
+button_group_inimigo_3_red = pygame.sprite.GroupSingle()
+button_inimigo_3_red = Botao.Button(enemy_unp_3_red, enemy_pressed_3_red, 80, 300, 3)
+button_group_inimigo_3_red.add(button_inimigo_3_red)
+
+button_group_inimigo_1_grey = pygame.sprite.GroupSingle()
+button_inimigo_1_grey = Botao.Button(enemy_unp_1_grey, enemy_pressed_1_grey, 80, 100, 3)
+button_group_inimigo_1_grey.add(button_inimigo_1_grey)
+button_group_inimigo_2_grey = pygame.sprite.GroupSingle()
+button_inimigo_2_grey = Botao.Button(enemy_unp_2_grey, enemy_pressed_2_grey, 80, 200, 3)
+button_group_inimigo_2_grey.add(button_inimigo_2_grey)
+button_group_inimigo_3_grey = pygame.sprite.GroupSingle()
+button_inimigo_3_grey = Botao.Button(enemy_unp_3_grey, enemy_pressed_3_grey, 80, 300, 3)
+button_group_inimigo_3_grey.add(button_inimigo_3_grey)
 
 # Battle buttons
 button_group_option_a = pygame.sprite.GroupSingle()
@@ -87,6 +200,75 @@ button_group_option_d.add(button_option_d)
 
 # Enemy
 capanga_group_1 = Inimigo.Enemy()
+
+# TESTE
+mapa = Mapa.Map([
+    button_group_level_1,
+    button_group_level_2,
+    button_group_level_3,
+    button_group_boss,
+    button_group_level_1_red,
+    button_group_level_2_red,
+    button_group_level_3_red,
+    button_group_level_1_grey,
+    button_group_level_2_grey,
+    button_group_level_3_grey,
+    button_group_boss_grey,
+], [
+    button_level_1,
+    button_level_2,
+    button_level_3,
+    button_boss,
+    button_level_1_red,
+    button_level_2_red,
+    button_level_3_red,
+    button_level_1_grey,
+    button_level_2_grey,
+    button_level_3_grey,
+    button_boss_grey,
+], screen)
+
+nivel = Level.LevelState([
+    button_group_inimigo_1,
+    button_group_inimigo_2,
+    button_group_inimigo_3,
+    button_group_inimigo_1_red,
+    button_group_inimigo_2_red,
+    button_group_inimigo_3_red,
+    button_group_inimigo_1_grey,
+    button_group_inimigo_2_grey,
+    button_group_inimigo_3_grey,
+], [
+    button_inimigo_1,
+    button_inimigo_2,
+    button_inimigo_3,
+    button_inimigo_1_red,
+    button_inimigo_2_red,
+    button_inimigo_3_red,
+    button_inimigo_1_grey,
+    button_inimigo_2_grey,
+    button_inimigo_3_grey,
+], screen)
+
+batalha = pygame.sprite.GroupSingle()
+batalha_option = Batalha.Battle([capanga_1], [430], [500], 3, [
+    button_group_option_a,
+    button_group_option_b,
+    button_group_option_c,
+    button_group_option_d,
+], [
+  button_option_a,  
+  button_option_b,  
+  button_option_c,  
+  button_option_d,
+], screen, [
+    'matematica',
+    'portugues',
+    'historia',
+    'geografia',
+    'biologia'
+], font)
+batalha.add(batalha_option)
 
 run = True
 while run:
@@ -117,20 +299,26 @@ while run:
         button_group_left.update()
         button_group_left.draw(screen)
 
-        button_group_level_1.update()
-        button_group_level_1.draw(screen)
+        if len(levelList) == 3 and len(enemyList) == 3:
+            mapa.map_state = 'boss'
+            nivel.level_state = 'level_1'
+            enemyList = []
+        elif len(levelList) == 2 and len(enemyList) == 3:
+            mapa.map_state = 'level_3'
+            nivel.level_state = 'level_1'
+            enemyList = []
+        elif len(levelList) == 1 and len(enemyList) == 3:
+            mapa.map_state = 'level_2'
+            nivel.level_state = 'level_1'
+            enemyList = []
 
-        if button_level_1.mouse_click() == True:
+        if mapa.map_manager() == 'levelMenu':
             menu_state = 'levelMenu'
-            button_level_1.reset_state()
+            mapa.reset_state()
 
         if button_left.mouse_click() == True:
             menu_state = 'mainMenu'
             button_left.reset_state()
-        
-        if levelList[0] == True:
-            button_group_level_2.update()
-            button_group_level_2.draw(screen)
         
     # <==== LEVEL MENU ====>
     if menu_state == 'levelMenu':
@@ -140,12 +328,16 @@ while run:
         button_group_left.update()
         button_group_left.draw(screen)
 
-        button_group_inimigo_1.update()
-        button_group_inimigo_1.draw(screen)
-
-        if button_inimigo_1.mouse_click() == True:
+        if len(enemyList) == 3:
+            nivel.level_state = 'boss'
+        elif len(enemyList) == 2:
+            nivel.level_state = 'level_3'
+        elif len(enemyList) == 1:
+            nivel.level_state = 'level_2'
+                
+        if nivel.level_manager() == 'battle':
             menu_state = 'battle'
-            button_inimigo_1.reset_state()
+            nivel.reset_state()
 
         if button_left.mouse_click() == True:
             menu_state = 'map'
@@ -158,65 +350,20 @@ while run:
         button_group_left.update()
         button_group_left.draw(screen)
 
-        if battleActive == False:
-            capanga_group_1.battle()
-            battleActive = True
+        if batalha_option.battle_manager() == 'levelMenu':
+            menu_state = 'levelMenu'
+            batalha_option.reset_state()
+            enemyList.append(True)
+            if len(enemyList) == 3:
+                levelList.append(True)
+                menu_state = 'map'
 
-        draw_text(capanga_group_1.perguntaList[-1], font, 'Black', 270, 90)
-
-        button_group_option_a.update()
-        button_group_option_a.draw(screen)
-        draw_text(capanga_group_1.perguntaList[0], font, 'Black', 120, 365)
-
-        button_group_option_b.update()
-        button_group_option_b.draw(screen)
-        draw_text(capanga_group_1.perguntaList[1], font, 'Black', 470, 365)
-
-        button_group_option_c.update()
-        button_group_option_c.draw(screen)
-        draw_text(capanga_group_1.perguntaList[2], font, 'Black', 120, 515)
-
-        button_group_option_d.update()
-        button_group_option_d.draw(screen)
-        draw_text(capanga_group_1.perguntaList[3], font, 'Black', 470, 515)
-        
-        # <==== ANSWER VERIFICATION ====>
-        if button_option_a.mouse_click() == True:
-            capanga_group_1.verifyAnswer(capanga_group_1.perguntaList[0], capanga_group_1.perguntaJaFeita[-1])
-            battleActive = False
-            capanga_group_1.perguntaList = []
-            button_option_a.reset_state()
-
-        if button_option_b.mouse_click() == True:
-            capanga_group_1.verifyAnswer(capanga_group_1.perguntaList[1], capanga_group_1.perguntaJaFeita[-1])
-            battleActive = False
-            capanga_group_1.perguntaList = []
-            button_option_b.reset_state()
-        
-        if button_option_c.mouse_click() == True:
-            capanga_group_1.verifyAnswer(capanga_group_1.perguntaList[2], capanga_group_1.perguntaJaFeita[-1])
-            battleActive = False
-            capanga_group_1.perguntaList = []
-            button_option_c.reset_state()
-        
-        if button_option_d.mouse_click() == True:
-            capanga_group_1.verifyAnswer(capanga_group_1.perguntaList[3], capanga_group_1.perguntaJaFeita[-1])
-            battleActive = False
-            capanga_group_1.perguntaList = []
-            button_option_d.reset_state()
-        
-        # <==== LEVEL COMPLETION VERIFICATION ====>
-        if capanga_group_1.correct == 5:
-            print('Inimigo derrotado')
-            menu_state = 'map'
-            enemyList[0] = True
-            levelList[0] = True
-        
-        if capanga_group_1.wrong == 3:
-            print('Foi de arrasta pra cima')
-            battleActive = False
-            perguntaList = []
+        if batalha_option.battle_manager() == 'mainMenu':
             menu_state = 'mainMenu'
+            nivel.level_state = 'level_1'
+            mapa.map_state = 'level_1'
+            levelList, enemyList = [], []
+            batalha_option.reset_state()
         
         if button_left.mouse_click() == True:
             menu_state = 'levelMenu'

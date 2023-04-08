@@ -3,7 +3,6 @@ import random
 import perguntas
 
 perguntas = perguntas.perguntas
-# perguntasList, perguntasJaFeitas = [], []
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):    
