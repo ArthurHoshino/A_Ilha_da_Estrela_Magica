@@ -250,8 +250,7 @@ nivel = Level.LevelState([
     button_inimigo_3_grey,
 ], screen)
 
-batalha = pygame.sprite.GroupSingle()
-batalha_option = Batalha.Battle([capanga_1], [430], [500], 3, [
+batalha = Batalha.Battle([capanga_1], [430], [500], 3, [
     button_group_option_a,
     button_group_option_b,
     button_group_option_c,
@@ -268,7 +267,7 @@ batalha_option = Batalha.Battle([capanga_1], [430], [500], 3, [
     'geografia',
     'biologia'
 ], font)
-batalha.add(batalha_option)
+
 
 run = True
 while run:
@@ -314,6 +313,7 @@ while run:
 
         if mapa.map_manager() == 'levelMenu':
             menu_state = 'levelMenu'
+            batalha.newEnemy = True # randomize the subjects
             mapa.reset_state()
 
         if button_left.mouse_click() == True:
@@ -337,6 +337,8 @@ while run:
                 
         if nivel.level_manager() == 'battle':
             menu_state = 'battle'
+            batalha.materiaIndex += 1
+            batalha.reset_state()
             nivel.reset_state()
 
         if button_left.mouse_click() == True:
@@ -350,24 +352,23 @@ while run:
         button_group_left.update()
         button_group_left.draw(screen)
 
-        if batalha_option.battle_manager() == 'levelMenu':
+        if batalha.battle_manager() == 'levelMenu':
             menu_state = 'levelMenu'
-            batalha_option.reset_state()
             enemyList.append(True)
             if len(enemyList) == 3:
                 levelList.append(True)
+                batalha.materiaIndex = -1
                 menu_state = 'map'
 
-        if batalha_option.battle_manager() == 'mainMenu':
-            menu_state = 'mainMenu'
+        if batalha.battle_manager() == 'mainMenu':
+            batalha.reset_all()
+            levelList, enemyList = [], []
             nivel.level_state = 'level_1'
             mapa.map_state = 'level_1'
-            levelList, enemyList = [], []
-            batalha_option.reset_state()
+            menu_state = 'mainMenu'
         
         if button_left.mouse_click() == True:
             menu_state = 'levelMenu'
-            button_left.reset_state()
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

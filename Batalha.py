@@ -13,7 +13,7 @@ class Battle(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(capanga[0], (int(width * scale), int(height * scale)))
         self.rect = self.image.get_rect(midtop=(pos_x[0], pos_y[0]))
 
-        self.enemy = 'enemy_1'
+        self.enemyChange = False
         self.group_btn = group_btn
         self.option_btn = option_btn
         self.screen = screen
@@ -25,15 +25,17 @@ class Battle(pygame.sprite.Sprite):
         self.wrong = 0
         self.perguntaList = []
         self.perguntaJaFeita = []
-        self.materiaJaVista = []
+        self.materiaInimigo = random.sample(self.materia, 3)
+        self.materiaIndex = -1
         self.battleActive = False
+        self.newEnemy = False
         self.state = ''
 
     def draw_text(self, text, font, text_col, x, y):
         img = font.render(text, True, text_col)
         self.screen.blit(img, (x, y))
 
-    def battle_1(self):
+    def battle(self):
         if self.battleActive == False:
             self.listagemPerguntas()
             self.battleActive = True
@@ -73,18 +75,20 @@ class Battle(pygame.sprite.Sprite):
             self.verifyAnswer(self.perguntaList[3])
             self.option_btn[3].reset_state()
         
-        self.battleWonLost()
 
     def battle_manager(self):
-        if self.enemy == 'enemy_1':
-            self.battle_1()
-        
+        self.battle()
         return self.state
   
 
     def listagemPerguntas(self):
+        if self.newEnemy == True:
+            self.materiaInimigo = random.sample(self.materia, 3)
+            print(self.materiaInimigo)
+            self.newEnemy = False
+
         while True:
-            listaPorMateria = perguntas[self.materia[0]].copy()
+            listaPorMateria = perguntas[self.materiaInimigo[self.materiaIndex]].copy()
             random.shuffle(listaPorMateria)
 
             if (listaPorMateria[0] in self.perguntaJaFeita) == False:
@@ -97,29 +101,41 @@ class Battle(pygame.sprite.Sprite):
         return self.perguntaList
 
     def verifyAnswer(self, answer):
-        print('Olá')
         if answer == self.perguntaJaFeita[-1]['resposta'][0]:
             print('Acertou')
             self.correct += 1
+            self.battleWonLost()
         else:
             print('Burro')
             self.wrong += 1
+            self.battleWonLost()
         
         self.battleActive = False
     
     def battleWonLost(self):
-        if self.correct == 1:
+        if self.correct == 2:
             print('Inimigo derrotado')
             self.state = 'levelMenu'
         
         if self.wrong == 3:
             print('Foi de arrasta pra cima')
             self.state = 'mainMenu'
-        
+
     def reset_state(self):
         self.correct = 0
         self.wrong = 0
         self.perguntaList = []
         self.perguntaJaFeita = []
         self.battleActive = False
+        self.state = ''
+    
+    def reset_all(self):
+        self.correct = 0
+        self.wrong = 0
+        self.perguntaList = []
+        self.perguntaJaFeita = []
+        # self.materiaInimigo = random.sample(self.materia, 3)
+        self.materiaIndex = -1
+        self.battleActive = False
+        self.newEnemy = False
         self.state = ''

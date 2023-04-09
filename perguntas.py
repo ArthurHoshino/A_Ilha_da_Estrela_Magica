@@ -65,8 +65,76 @@ perguntas = {
             "resposta": ["13", "14", "12", "11"],
         },
     ],
-    "portugues": [],
-    "historia": [],
-    "geografia": [],
-    "biologia": []
+    "portugues": [
+        {
+            "pergunta": "'A' é artigo?",
+            "resposta": ["Sim", "Não", "Depende", "Talvez"]
+        },
+        {
+            "pergunta": "'B' é consoante?",
+            "resposta": ["Sim", "Não", "Depende", "Talvez"]
+        },
+        {
+            "pergunta": "'C' é consoante?",
+            "resposta": ["Sim", "Não", "Depende", "Talvez"]
+        },
+        {
+            "pergunta": "'E' é vogal?",
+            "resposta": ["Sim", "Não", "Depende", "Talvez"]
+        },
+    ],
+    "historia": [
+        {
+            "pergunta": "Hitler é mau?",
+            "resposta": ["Sim", "Não", "Depende", "Talvez"]
+        },
+        {
+            "pergunta": "O Brasil foi colonizado por portugueses?",
+            "resposta": ["Sim", "Não", "Depende", "Talvez"]
+        },
+        {
+            "pergunta": "A Segunda Guerra Mundial acabou no ano de 1945?",
+            "resposta": ["Sim", "Não", "Depende", "Talvez"]
+        },
+        {
+            "pergunta": "Energia elétrica surgiu na Segunda Revolução Industrial?",
+            "resposta": ["Sim", "Não", "Depende", "Talvez"]
+        },
+    ],
+    "geografia": [
+        {
+            "pergunta": "Brasil é um país",
+            "resposta": ["Sim", "Não", "Depende", "Talvez"]
+        },
+        {
+            "pergunta": "Japão é um país 1",
+            "resposta": ["Sim", "Não", "Depende", "Talvez"]
+        },
+        {
+            "pergunta": "Japão é um país 2",
+            "resposta": ["Sim", "Não", "Depende", "Talvez"]
+        },
+        {
+            "pergunta": "Japão é um país 3",
+            "resposta": ["Sim", "Não", "Depende", "Talvez"]
+        },
+    ],
+    "biologia": [
+        {
+            "pergunta": "Qual organela responsável pela respiração\ncelular em células eucariontes?",
+            "resposta": ["Mitocôndria", "Ribossomo", "DNA", "Citoplasma"]
+        },
+        {
+            "pergunta": "Por que as penas dos flamingos ficam rosa 1?",
+            "resposta": ["Não sei", "Ribossomo", "DNA", "Citoplasma"]
+        },
+        {
+            "pergunta": "Por que as penas dos flamingos ficam rosa 2?",
+            "resposta": ["Não sei", "Ribossomo", "DNA", "Citoplasma"]
+        },
+        {
+            "pergunta": "Por que as penas dos flamingos ficam rosa 3?",
+            "resposta": ["Não sei", "Ribossomo", "DNA", "Citoplasma"]
+        },
+    ]
 }
