@@ -1,6 +1,6 @@
 # A Ilha da Estrela Magica
 
-Simples jogo de perguntas e respostas
+Jogos de perguntas e respostas desenvolvido em Python utilizando a biblioteca Pygame para projeto de extensão pelo Centro Universitário Eurípides de Marília (UNIVEM).
 
 
 
